@@ -1,0 +1,1 @@
+getscript.vba: call delete('/home/romik/.vim/plugin/getscriptPlugin.vim')|call delete('/home/romik/.vim/autoload/getscript.vim')|call delete('/home/romik/.vim/GetLatest/GetLatestVimScripts.dist')|call delete('/home/romik/.vim/doc/pi_getscript.txt')

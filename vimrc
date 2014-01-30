@@ -5,6 +5,12 @@ set viminfo='1000,f1,:1000,/1000
 set history=500
 
 au FileType php set omnifunc=phpcomplete#CompletePHP
+if has("autocmd")
+  augroup module
+    autocmd BufRead,BufNewFile *.inc set filetype=php
+    autocmd BufRead,BufNewFile *.include set filetype=php
+  augroup END
+endif
 
 "------  Visual Options  ------
 set guioptions=egmt         "remove toolbar, scrollbars
@@ -24,15 +30,15 @@ set hidden                  "Switch between unsaved buffers w/o needing to save,
 filetype indent on          "Syntax Highlight
 filetype plugin on          "Needed for snipMate
 set autoindent              "Autoindent
-"set expandtab               "Use spaces instead of tabs
+set expandtab               "Use spaces instead of tabs
 "Ignore these files when completing names
 set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif,node_modules/*
 
 "------  Special Coffee Behavior ------
-au BufNewFile,BufReadPost *.coffee set shiftwidth=2 softtabstop=2 expandtab
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
-au BufWritePost *.coffee silent make!
-autocmd QuickFixCmdPost * nested cwindow | redraw!
+" au BufNewFile,BufReadPost *.coffee set shiftwidth=2 softtabstop=2 expandtab
+" autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+" au BufWritePost *.coffee silent make!
+" autocmd QuickFixCmdPost * nested cwindow | redraw!
 
 "------  Searching  ------
 set incsearch               "Search while typing
@@ -41,10 +47,15 @@ set smartcase               "Lowercase = case insensitive, any uppercase = case 
 set hlsearch                "Highlight all search results
 "Following line clears the search highlights when pressing Lb
 nnoremap <leader>b :nohlsearch<CR>
-" http://www.vim.org/scripts/script.php?script_id=2572
-noremap <leader>a :Ack 
-noremap <leader>A <C-w>j<C-w>c<C-w>l
-let g:ackprg="ack -H --nocolor --nogroup --column --type-add php=.tpl"
+"" http://www.vim.org/scripts/script.php?script_id=2572
+"noremap <leader>a :Ack 
+"noremap <leader>A <C-w>j<C-w>c<C-w>l
+"let g:ackprg="ack -H --nocolor --nogroup --column --type-add php=.tpl"
+"
+"------  Encoding  ------
+set termencoding=utf8
+set fileencodings=utf8,cp1251
+set encoding=utf8
 
 "------  Replacing ------
 "type S, then type what you're looking for, a /, and what to replace it with
@@ -56,10 +67,10 @@ let NERDTreeIgnore=['CVS','\.dSYM$']
 let NERDTreeChDirMode=2     "setting root dir in NT also sets VIM's cd
 noremap <silent> <Leader>n :NERDTreeToggle<CR>
 " These prevent accidentally loading files while in the NERDTree panel
-autocmd FileType nerdtree noremap <buffer> <c-left> <nop>
-autocmd FileType nerdtree noremap <buffer> <c-h> <nop>
-autocmd FileType nerdtree noremap <buffer> <c-right> <nop>
-autocmd FileType nerdtree noremap <buffer> <c-l> <nop>
+autocmd FileType nerdtree noremap <buffer> <A-left> <nop>
+autocmd FileType nerdtree noremap <buffer> <A-right> <nop>
+autocmd FileType nerdtree noremap <buffer> <A-up> <nop>
+autocmd FileType nerdtree noremap <buffer> <A-down> <nop>
 
 "------  Tagbar Options  ------
 " http://adamyoung.net/Exuberant-Ctags-OS-X
@@ -69,40 +80,46 @@ noremap <silent> <Leader>y :TagbarToggle<CR>
 
 "------  Buffers  ------
 " Ctrl Left & Right move between buffers
-noremap <silent> <C-left> :bprev<CR>
-noremap <silent> <C-h> :bprev<CR>
-noremap <silent> <C-right> :bnext<CR>
-noremap <silent> <C-l> :bnext<CR>
+noremap <silent> <A-left> :bprev<CR>
+noremap <silent> <A-right> :bnext<CR>
+
+nmap <A-UP> <ESC>:BufExplorer<CR>
+vmap <A-UP> <ESC>:BufExplorer<CR>
+imap <A-UP> <ESC>:BufExplorer<CR>
+nmap <A-DOWN> <ESC>:BufExplorer<CR>
+vmap <A-DOWN> <ESC>:BufExplorer<CR>
+imap <A-DOWN> <ESC>:BufExplorer<CR>
+
 " Closes the current buffer
 nnoremap <silent> <Leader>q :Bclose<CR>
 
 " Allow saving of files as sudo when I forgot to start vim using sudo.
-cmap w!! %!sudo tee > /dev/null %
+"cmap w!! %!sudo tee > /dev/null %
 
 " Closes the current window
 nnoremap <silent> <Leader>Q <C-w>c
 
 "------  Fugitive  ------ 
 "https://github.com/tpope/vim-fugitive
-nnoremap <Leader>gs :Gstatus<CR>
-nnoremap <Leader>gr :Gremove<CR>
-nnoremap <Leader>gl :Glog<CR>
-nnoremap <Leader>gb :Gblame<CR>
-nnoremap <Leader>gm :Gmove 
-nnoremap <Leader>gp :Ggrep 
-nnoremap <Leader>gR :Gread<CR>
-nnoremap <Leader>gg :Git 
-nnoremap <Leader>gd :Gdiff<CR>
+"nnoremap <Leader>gs :Gstatus<CR>
+"nnoremap <Leader>gr :Gremove<CR>
+"nnoremap <Leader>gl :Glog<CR>
+"nnoremap <Leader>gb :Gblame<CR>
+"nnoremap <Leader>gm :Gmove 
+"nnoremap <Leader>gp :Ggrep 
+"nnoremap <Leader>gR :Gread<CR>
+"nnoremap <Leader>gg :Git 
+"nnoremap <Leader>gd :Gdiff<CR>
 
 "------  Moving Between Windows  ------
-nnoremap <Leader>h <C-w>h
-nnoremap <Leader>l <C-w>l
-nnoremap <Leader>j <C-w>j
-nnoremap <Leader>k <C-w>k
-nnoremap <Leader>wo <C-w>o
-nnoremap <Leader>wv <C-w>v<C-w>l
-nnoremap <Leader>ws <C-w>s
-nnoremap <Leader>ww <C-w><C-w>
+"nnoremap <Leader>h <C-w>h
+"nnoremap <Leader>l <C-w>l
+"nnoremap <Leader>j <C-w>j
+"nnoremap <Leader>k <C-w>k
+"nnoremap <Leader>wo <C-w>o
+"nnoremap <Leader>wv <C-w>v<C-w>l
+"nnoremap <Leader>ws <C-w>s
+"nnoremap <Leader>ww <C-w><C-w>
 
 " Opens an edit command with the path of the currently edited file filled in Normal mode: <Leader>ee
 map <Leader>ee :e <C-R>=expand("%:p:h") . "/" <CR>
@@ -167,20 +184,16 @@ else
     set t_Co=256
     colorscheme Mustang             "This theme actually works in 256, ir_black doesn't
 	set mouse=a						"This allows mouse scrolling in terminal, and selection of text
-endif
 
-if has("gui_macvim") "Use Experimental Renderer option must be enabled for transparency
-	"set guifont=Monaco:h14
-	set guifont=Monaco:h10
-	set noantialias
-	set transparency=15
-    " Swipe to move between bufers :D
-    map <SwipeLeft> :bprev<CR>
-    map <SwipeRight> :bnext<CR>
-	" OS X probably has ctags in a weird place
-	let g:tagbar_ctags_bin='/usr/local/bin/ctags'
+    nmap <Leader>s :set list!<CR>
+	set listchars=tab:▸\ ,trail:·,extends:❯,precedes:❮,nbsp:×,eol:¬
 endif
 
 if filereadable($HOME.'/.vimrc_local')
     source $HOME/.vimrc_local
 endif
+
+inoremap <C-L> <ESC>:call PhpDocSingle()<CR>i 
+nnoremap <C-L> :call PhpDocSingle()<CR> 
+vnoremap <C-L> :call PhpDocRange()<CR>
+
