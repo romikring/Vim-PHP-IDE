@@ -7,8 +7,9 @@ set history=500
 au FileType php set omnifunc=phpcomplete#CompletePHP
 if has("autocmd")
   augroup module
-    autocmd BufRead,BufNewFile *.inc set filetype=php
+    autocmd BufRead,BufNewFile *.inc     set filetype=php
     autocmd BufRead,BufNewFile *.include set filetype=php
+    autocmd BufRead,BufNewFile *.sass    set filetype=sass
   augroup END
 endif
 
@@ -196,4 +197,13 @@ endif
 inoremap <C-L> <ESC>:call PhpDocSingle()<CR>i 
 nnoremap <C-L> :call PhpDocSingle()<CR> 
 vnoremap <C-L> :call PhpDocRange()<CR>
+
+" Do not need stick to top or bottom
+set scrolljump=7
+set scrolloff=7
+
+" Load php-doc plugin
+so ~/.vim/plugin/php-doc.vim 
+map <C-R> :exe PhpDoc()<CR> 
+map <C-F> :exe PhpDocVarBlock()<CR>
 
