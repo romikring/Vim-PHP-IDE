@@ -152,6 +152,7 @@ map <Leader>p :! php -l %<CR>
 map <Leader>P :! php -q %<CR>
 " ,L = Toggle line numbers
 map <Leader>L :set invnumber<CR>
+map <Leader>l :call NumberToggle()<CR>
 " ,v = Paste
 map <Leader>v "+gP
 " ,c = Copy
@@ -201,9 +202,4 @@ vnoremap <C-L> :call PhpDocRange()<CR>
 " Do not need stick to top or bottom
 set scrolljump=7
 set scrolloff=7
-
-" Load php-doc plugin
-so ~/.vim/plugin/php-doc.vim 
-map <C-R> :exe PhpDoc()<CR> 
-map <C-F> :exe PhpDocVarBlock()<CR>
 
